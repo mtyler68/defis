@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="800.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.xefix.efis.PFDScreenController">
+   <top>
+      <HBox prefHeight="75.0" prefWidth="100.0" spacing="2.0" BorderPane.alignment="CENTER">
+         <children>
+            <TitledPane animated="false" collapsible="false" text="Autopilot">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Not engaged" />
+                        <Label text="Bank Pitch" />
+                     </children>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="GPS 3D 14">
+               <content>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Label text="Alt 5540" />
+                        <Label text="N33.45.575" />
+                        <Label text="W116.20.223" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" prefHeight="100.0" prefWidth="170.0" text="COMM 1">
+               <content>
+                  <HBox prefHeight="74.0" prefWidth="133.0">
+                     <children>
+                        <VBox prefHeight="54.0" prefWidth="57.0">
+                           <children>
+                              <Label text="118.000" />
+                              <Label text="124.500" />
+                           </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="COMM 2">
+               <content>
+                  <HBox prefHeight="74.0" prefWidth="139.0">
+                     <children>
+                        <VBox prefHeight="54.0" prefWidth="55.0">
+                           <children>
+                              <Label text="118.000" />
+                              <Label text="124.500" />
+                           </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" collapsible="false" text="XDPR">
+               <content>
+                  <HBox minWidth="-Infinity" prefHeight="100.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label text="1200" />
+                        <Label text="ALT" />
+                     </children>
+                  </HBox>
+               </content>
+            </TitledPane>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff12" height="250.0" layoutX="50.0" layoutY="75.0" smooth="false" stroke="#ffffff2b" strokeType="INSIDE" width="100.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff12" height="50.0" layoutX="50.0" layoutY="325.0" smooth="false" stroke="#ffffff2b" strokeType="INSIDE" width="100.0" />
+            <Text layoutX="53.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TAS" />
+            <Text layoutX="56.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GS" />
+            <Text layoutX="89.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="44" />
+            <Text layoutX="89.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="44" />
+            <Text layoutX="111.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kts" />
+            <Text layoutX="111.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="kts" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
