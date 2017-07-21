@@ -130,9 +130,9 @@ public class MainApp extends Application
         stage.setScene(scene);
         stage.show();
 
-//        bankTimeline.play();
-//        timeline.play();
-//        pitchTimeline.play();
+        bankTimeline.play();
+        timeline.play();
+        pitchTimeline.play();
     }
 
     /**
