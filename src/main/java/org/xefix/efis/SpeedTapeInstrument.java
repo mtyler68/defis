@@ -64,7 +64,7 @@ public class SpeedTapeInstrument extends Parent
 
         //gc.clearRect(0, 0, maxX, maxX);
         // Background
-        gc.setFill(Color.gray(0.6));
+        gc.setFill(Color.gray(0.4));
         gc.fillRect(10, 0, maxX - 10, maxY);
 
         // Speed ticks

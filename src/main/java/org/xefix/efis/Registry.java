@@ -31,6 +31,11 @@ import javafx.beans.Observable;
  *
  * Do not apply smoothing at the registry level. Smoothing is for display purposes.
  *
+ * TODO: Add /redundency directory where telemetry is mapped in priority order to fallback telemetry sources. For
+ * example: /redundency/indicatedAirSpeed would be mapped to /pitot[0]/airspeed-kts,/pitot[1]/airspeed-kts
+ *
+ * /gps[0] = ADS-B In/Out GPS, /gps[1] = EFIS 1 GPS, /gps[2] = EFIS 2 GPS
+ *
  * @author Matthew Tyler
  */
 public class Registry

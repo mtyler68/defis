@@ -28,10 +28,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.flightgear.fgfsclient.FGFSConnection;
+import org.xefix.efis.instrument.AltitudeTape;
 
 import static javafx.application.Application.launch;
 import static javafx.util.Duration.millis;
 
+/**
+ *
+ * @author Matthew Tyler
+ */
 public class MainApp extends Application
 {
 
@@ -69,6 +74,7 @@ public class MainApp extends Application
 
         SpeedTapeInstrument st = new SpeedTapeInstrument();
         AttitudeIndicatorInstrument ai = new AttitudeIndicatorInstrument();
+        AltitudeTape alt = new AltitudeTape(60, 250);
 
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -97,17 +103,30 @@ public class MainApp extends Application
                 new KeyFrame(new Duration(4000), new KeyValue(ai.pitchAngleProperty(), 30))
         );
 
+        Timeline altTimeline = new Timeline();
+        altTimeline.setCycleCount(Timeline.INDEFINITE);
+        altTimeline.setAutoReverse(true);
+
+        altTimeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO, new KeyValue(alt.valueProperty(), -1000)),
+                new KeyFrame(new Duration(17000), new KeyValue(alt.valueProperty(), 1000))
+        );
+
         Slider speedSlider = new Slider(0, 250, 0);
         speedSlider.setOrientation(Orientation.VERTICAL);
 //        st.airSpeedProperty().bind(speedSlider.valueProperty());
 
         //Parent root = new HBox(st, ai);
 //        StackPane root = new StackPane(ai, st);
-        AnchorPane root = new AnchorPane(ai, st);
+        AnchorPane root = new AnchorPane(ai, alt, st);
 
-        st.setLayoutX(50);
-        st.setLayoutY(50);
+        st.setLayoutX(160);
+        st.setLayoutY(75);
         st.setOpacity(.85);
+
+        alt.setLayoutX(580);
+        alt.setLayoutY(75);
+        alt.setOpacity(.85);
 
         //root.setStyle("-fx-background-color: chocolate");
         Scene scene = new Scene(root);
@@ -148,6 +167,7 @@ public class MainApp extends Application
         bankTimeline.play();
         timeline.play();
         pitchTimeline.play();
+        altTimeline.play();
     }
 
     /**
