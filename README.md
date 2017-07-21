@@ -1,5 +1,5 @@
 # xefis
-xEFIS Experimental Electronic Flight Instrument System (pronounced zee' - fiz)
+Experimental Electronic Flight Instrument System (pronounced zee' - fiz)
 
 Passages below that begin with a date are helpful to track any claims I may make about this project before they materialize in order keep track of the currency of this work.
 
