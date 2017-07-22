@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,26 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis;
+package org.defis.efis.gauges;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import static org.defis.efis.gauges.DisplayOrientation.LEFT;
 
 /**
- * FXML Controller class
+ * TODO: Think about the different types of altitude to show (pressure, density, true, absolute) TODO: Should this
+ * include the Altimeter setting display (Kolsman window?)
  *
- * @author matthewt
+ * @author Matthew Tyler
  */
-public class PFDScreenController implements Initializable
+public class AltitudeTape extends AbstractTapeGauge
 {
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public AltitudeTape(double width, double height) {
+        super(width, height, LEFT, 100, 20, 500);
+        setIndicatorLabelFormat("%0,3.0f");
+        setNegativeDrawn(true);
+        update();
     }
-
 }

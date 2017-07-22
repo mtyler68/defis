@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis;
+package org.defis.efis;
 
 import javafx.beans.Observable;
 
@@ -30,6 +30,11 @@ import javafx.beans.Observable;
  * configuration settings.
  *
  * Do not apply smoothing at the registry level. Smoothing is for display purposes.
+ *
+ * TODO: Add /redundency directory where telemetry is mapped in priority order to fallback telemetry sources. For
+ * example: /redundency/indicatedAirSpeed would be mapped to /pitot[0]/airspeed-kts,/pitot[1]/airspeed-kts
+ *
+ * /gps[0] = ADS-B In/Out GPS, /gps[1] = EFIS 1 GPS, /gps[2] = EFIS 2 GPS
  *
  * @author Matthew Tyler
  */

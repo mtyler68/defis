@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis;
+package org.defis.efis;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -224,9 +224,9 @@ public class AttitudeIndicatorInstrument extends Parent
 //        gc.clip();
         gc.beginPath();
         for (double pitch = pitchNormalized - 30; pitch < pitchNormalized + 30; pitch += 2.5) {
-            if (pitch == 0) {
-                continue;
-            }
+//            if (pitch == 0) {
+//                continue;
+//            }
 
             double halfWidth = (pitch % 10 == 0 ? 20 : (pitch % 5 == 0 ? 10 : 5));
             gc.moveTo(-halfWidth, -pitch * pitchDegToPixel);

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis;
+package org.defis.efis;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -64,7 +64,7 @@ public class SpeedTapeInstrument extends Parent
 
         //gc.clearRect(0, 0, maxX, maxX);
         // Background
-        gc.setFill(Color.gray(0.6));
+        gc.setFill(Color.gray(0.4));
         gc.fillRect(10, 0, maxX - 10, maxY);
 
         // Speed ticks
