@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis.gauges;
+package org.defis.efis.gauges;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -22,11 +22,13 @@ import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import static javafx.scene.text.TextAlignment.RIGHT;
 import static lombok.AccessLevel.PROTECTED;
 
 /**
@@ -67,7 +69,8 @@ public abstract class AbstractTapeGauge extends Parent
     private Color backgroundColor = Color.gray(0.4);
 
     @Getter(PROTECTED)
-    private boolean negativeDrawn = true;
+    @Setter(PROTECTED)
+    private boolean negativeDrawn = false;
 
     @Getter(PROTECTED)
     @Setter(PROTECTED)
@@ -93,7 +96,6 @@ public abstract class AbstractTapeGauge extends Parent
         valueProperty.addListener(l -> update());
 
         getChildren().add(canvas);
-        update();
     }
 
     protected void update() {
@@ -114,7 +116,11 @@ public abstract class AbstractTapeGauge extends Parent
         gc.restore();
 
         gc.save();
-        drawIndicator(gc);
+        drawMagnifier(gc);
+        gc.restore();
+
+        gc.save();
+        drawCurrentValue(gc);
         gc.restore();
     }
 
@@ -169,6 +175,9 @@ public abstract class AbstractTapeGauge extends Parent
                 displayValue += getUnitsToMinorTick()) {
 
             double normalizedValue = displayValue - (displayValue % getUnitsToMinorTick());
+            if (!isNegativeDrawn() && normalizedValue < 0) {
+                continue;
+            }
 
             // TODO: Note only drawing for vertical tape display
             double tickLoc = getSetup().pixelsToUnit * (getValue() - normalizedValue);
@@ -187,8 +196,19 @@ public abstract class AbstractTapeGauge extends Parent
         gc.stroke();
     }
 
+    /**
+     * Converts a major tick value into the text that will be displayed. A descendent class may override this when using
+     * simple String.format() isn't sufficient.
+     *
+     * @param val
+     * @return
+     */
     protected String generateTickLabel(double val) {
         return String.format(getTickLabelFormat(), val);
+    }
+
+    protected String generateMagnifierLabel(double val) {
+        return String.format(getIndicatorLabelFormat(), val);
     }
 
     /**
@@ -209,8 +229,6 @@ public abstract class AbstractTapeGauge extends Parent
     private void initialize() {
         setup = new Setup();
 
-        // Translation for the background
-        double tx = 0, ty = 0, width = 0, height = 0;
         switch (getOrientation()) {
             case RIGHT:
                 setup.bgTx = getWidth() - getTapeWidth();
@@ -232,9 +250,11 @@ public abstract class AbstractTapeGauge extends Parent
         }
 
         setup.pixelsToUnit = calcDisplayRange() / getVisibleRange();
+        setup.numRollingDigits = Integer.toString((int) unitsToMinorTick).length();
+        setup.valueX = 35;
     }
 
-    private void drawIndicator(GraphicsContext gc) {
+    private void drawMagnifier(GraphicsContext gc) {
         gc.setStroke(Color.WHITE);
         gc.setFill(Color.BLACK);
 
@@ -259,6 +279,24 @@ public abstract class AbstractTapeGauge extends Parent
         gc.stroke();
     }
 
+    private void drawCurrentValue(GraphicsContext gc) {
+        gc.translate(setup.valueX, setup.tY);
+        gc.setTextAlign(RIGHT);
+        gc.setTextBaseline(VPos.CENTER);
+        gc.setStroke(Color.WHITE);
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font(gc.getFont().getSize() + 8));
+
+        String label = generateMagnifierLabel(getValue());
+
+        strokeAndFillText(gc, label);
+    }
+
+    protected void strokeAndFillText(GraphicsContext gc, String label) {
+        gc.fillText(label.substring(0, label.length() - getSetup().numRollingDigits), 0, -2);
+        gc.strokeText(label.substring(0, label.length() - getSetup().numRollingDigits), 0, -2);
+    }
+
     protected class Setup
     {
 
@@ -266,6 +304,8 @@ public abstract class AbstractTapeGauge extends Parent
         public double pixelsToUnit, tickDir = 1, tX = 0, tY = 0;
         public VPos textBaseline = VPos.CENTER;
         public TextAlignment textAlignment = TextAlignment.LEFT;
+        public int numRollingDigits;
+        public double valueX;
     }
 
 }

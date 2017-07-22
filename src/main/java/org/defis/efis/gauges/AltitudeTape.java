@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis.gauges;
+package org.defis.efis.gauges;
 
-import static org.xefix.efis.gauges.DisplayOrientation.LEFT;
+import static org.defis.efis.gauges.DisplayOrientation.LEFT;
 
 /**
  * TODO: Think about the different types of altitude to show (pressure, density, true, absolute) TODO: Should this
@@ -28,5 +28,8 @@ public class AltitudeTape extends AbstractTapeGauge
 
     public AltitudeTape(double width, double height) {
         super(width, height, LEFT, 100, 20, 500);
+        setIndicatorLabelFormat("%0,3.0f");
+        setNegativeDrawn(true);
+        update();
     }
 }

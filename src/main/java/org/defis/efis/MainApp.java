@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis;
+package org.defis.efis;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -28,10 +28,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.flightgear.fgfsclient.FGFSConnection;
-import org.xefix.efis.gauges.AltitudeTape;
+import org.defis.efis.gauges.AltitudeTape;
 
-import static javafx.application.Application.launch;
-import static javafx.util.Duration.millis;
 import static javafx.application.Application.launch;
 import static javafx.util.Duration.millis;
 
@@ -110,8 +108,8 @@ public class MainApp extends Application
         altTimeline.setAutoReverse(true);
 
         altTimeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, new KeyValue(alt.valueProperty(), -1000)),
-                new KeyFrame(new Duration(17000), new KeyValue(alt.valueProperty(), 1000))
+                new KeyFrame(Duration.ZERO, new KeyValue(alt.valueProperty(), -1200)),
+                new KeyFrame(new Duration(17000), new KeyValue(alt.valueProperty(), 1200))
         );
 
         Slider speedSlider = new Slider(0, 250, 0);

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 xefis
+ *  Copyright 2017 DEFIS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -13,26 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+package org.defis.efis.gauges;
 
 /**
- * FXML Controller class
  *
  * @author matthewt
  */
-public class PFDScreenController implements Initializable
+public class HeadingIndicator
 {
-
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }
 
 }
