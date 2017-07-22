@@ -28,8 +28,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.flightgear.fgfsclient.FGFSConnection;
-import org.xefix.efis.instrument.AltitudeTape;
+import org.xefix.efis.gauges.AltitudeTape;
 
+import static javafx.application.Application.launch;
+import static javafx.util.Duration.millis;
 import static javafx.application.Application.launch;
 import static javafx.util.Duration.millis;
 

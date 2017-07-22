@@ -13,13 +13,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis.instrument;
+package org.xefix.efis.gauges;
 
 /**
  *
- * @author matthewt
+ * @author Matthew Tyler
  */
-public enum DisplayDirection
+public enum DisplayOrientation
 {
     LEFT, RIGHT, UP, DOWN
 }

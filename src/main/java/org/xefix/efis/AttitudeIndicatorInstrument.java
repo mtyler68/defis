@@ -224,9 +224,9 @@ public class AttitudeIndicatorInstrument extends Parent
 //        gc.clip();
         gc.beginPath();
         for (double pitch = pitchNormalized - 30; pitch < pitchNormalized + 30; pitch += 2.5) {
-            if (pitch == 0) {
-                continue;
-            }
+//            if (pitch == 0) {
+//                continue;
+//            }
 
             double halfWidth = (pitch % 10 == 0 ? 20 : (pitch % 5 == 0 ? 10 : 5));
             gc.moveTo(-halfWidth, -pitch * pitchDegToPixel);

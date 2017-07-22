@@ -13,7 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.xefix.efis.instrument;
+package org.xefix.efis.gauges;
+
+import static org.xefix.efis.gauges.DisplayOrientation.LEFT;
 
 /**
  * TODO: Think about the different types of altitude to show (pressure, density, true, absolute) TODO: Should this
@@ -21,10 +23,10 @@ package org.xefix.efis.instrument;
  *
  * @author Matthew Tyler
  */
-public class AltitudeTape extends AbstractTapeInstrument
+public class AltitudeTape extends AbstractTapeGauge
 {
 
     public AltitudeTape(double width, double height) {
-        super(width, height);
+        super(width, height, LEFT, 100, 20, 500);
     }
 }
