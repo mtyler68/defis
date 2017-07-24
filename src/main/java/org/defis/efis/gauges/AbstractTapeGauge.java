@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import static javafx.scene.text.TextAlignment.LEFT;
 import static javafx.scene.text.TextAlignment.RIGHT;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -54,6 +55,13 @@ public abstract class AbstractTapeGauge extends Parent
 
     @Getter(PROTECTED)
     private final double unitsToMajorTick;
+
+    /**
+     * The scale of values that roll in the indicator window. For example, the airspeed scale may be 1 in order to
+     * scroll sequential numbers while the altimeter may be 20 to scroll altitude increments in steps of 20.
+     */
+    @Getter(PROTECTED)
+    private final double indicatorStep;
 
     /**
      * The number of units shown from one end of the tape to the other. This allows the tape to calculate its display
@@ -84,12 +92,13 @@ public abstract class AbstractTapeGauge extends Parent
     private Setup setup;
 
     protected AbstractTapeGauge(double width, double height, DisplayOrientation orientation,
-            double unitsToMajorTick, double unitsToMinorTick, double visibleRange) {
+            double unitsToMajorTick, double unitsToMinorTick, double visibleRange, double indicatorStep) {
         canvas = new Canvas(width, height);
         this.orientation = orientation;
         this.unitsToMajorTick = unitsToMajorTick;
         this.unitsToMinorTick = unitsToMinorTick;
         this.visibleRange = visibleRange;
+        this.indicatorStep = indicatorStep;
 
         tapeWidth = width - 10;
 
@@ -104,6 +113,7 @@ public abstract class AbstractTapeGauge extends Parent
         }
 
         GraphicsContext gc = getGraphicsContext();
+        double value = getValue();
 
         clear(gc);
 
@@ -120,7 +130,7 @@ public abstract class AbstractTapeGauge extends Parent
         gc.restore();
 
         gc.save();
-        drawCurrentValue(gc);
+        drawCurrentValue(gc, value);
         gc.restore();
     }
 
@@ -207,7 +217,7 @@ public abstract class AbstractTapeGauge extends Parent
         return String.format(getTickLabelFormat(), val);
     }
 
-    protected String generateMagnifierLabel(double val) {
+    protected String generateIndicatorLabel(double val) {
         return String.format(getIndicatorLabelFormat(), val);
     }
 
@@ -259,9 +269,16 @@ public abstract class AbstractTapeGauge extends Parent
         gc.setFill(Color.BLACK);
 
         gc.translate(setup.tX, setup.tY);
-        gc.beginPath();
 
+        leftFacingIndicator(gc);
+
+        gc.fill();
+        gc.stroke();
+    }
+
+    protected void leftFacingIndicator(GraphicsContext gc) {
         // Left facing magnifier
+        gc.beginPath();
         gc.moveTo(0, 0);
         gc.lineTo(8, -3);
         gc.lineTo(8, -10);
@@ -274,12 +291,10 @@ public abstract class AbstractTapeGauge extends Parent
         gc.lineTo(8, 10);
         gc.lineTo(8, 3);
         gc.closePath();
-
-        gc.fill();
-        gc.stroke();
     }
 
-    private void drawCurrentValue(GraphicsContext gc) {
+    private void drawCurrentValue(GraphicsContext gc, double value) {
+
         gc.translate(setup.valueX, setup.tY);
         gc.setTextAlign(RIGHT);
         gc.setTextBaseline(VPos.CENTER);
@@ -287,9 +302,31 @@ public abstract class AbstractTapeGauge extends Parent
         gc.setFill(Color.WHITE);
         gc.setFont(new Font(gc.getFont().getSize() + 8));
 
-        String label = generateMagnifierLabel(getValue());
+        String label = generateIndicatorLabel(value);
 
         strokeAndFillText(gc, label);
+
+        gc.beginPath();
+        gc.rect(0, -20, getWidth() - 35, 40);
+        gc.clip();
+
+        gc.setTextAlign(LEFT);
+        for (double rollingValue = value - 2 * getIndicatorStep();
+                rollingValue <= value + 2 * getIndicatorStep();
+                rollingValue += getIndicatorStep()) {
+            double normalizedValue = rollingValue - (rollingValue % getIndicatorStep());
+            label = generateIndicatorLabel(normalizedValue);
+            label = label.substring(label.length() - 2);
+
+            double lY = -36 * (normalizedValue - getValue()) / (2 * getIndicatorStep());
+            strokeAndFillText(gc, 0, lY, label);
+            //strokeAndFillText(gc, 0, -33 * (rollingValue - getValue()) / (2 * getIndicatorStep()), label);
+        }
+    }
+
+    protected void strokeAndFillText(GraphicsContext gc, double x, double y, String label) {
+        gc.fillText(label, x, y - 2);
+        gc.strokeText(label, x, y - 2);
     }
 
     protected void strokeAndFillText(GraphicsContext gc, String label) {
@@ -306,6 +343,10 @@ public abstract class AbstractTapeGauge extends Parent
         public TextAlignment textAlignment = TextAlignment.LEFT;
         public int numRollingDigits;
         public double valueX;
+    }
+
+    protected void drawRollingValues(TextAlignment alignment, VPos baseline) {
+
     }
 
 }

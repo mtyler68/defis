@@ -36,6 +36,8 @@ import javafx.beans.Observable;
  *
  * /gps[0] = ADS-B In/Out GPS, /gps[1] = EFIS 1 GPS, /gps[2] = EFIS 2 GPS
  *
+ * TODO: Backup telemetry and instruments may be referred to as AUX
+ *
  * @author Matthew Tyler
  */
 public class Registry
