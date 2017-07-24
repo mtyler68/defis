@@ -19,16 +19,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.WritableValue;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.flightgear.fgfsclient.FGFSConnection;
 import org.defis.efis.gauges.AltitudeTape;
+import org.flightgear.fgfsclient.FGFSConnection;
 
 import static javafx.application.Application.launch;
 import static javafx.util.Duration.millis;
@@ -68,6 +67,18 @@ public class MainApp extends Application
         }
     }
 
+    private <T> Timeline createTimeline(WritableValue<T> target, long durationMs, T startValue, T endValue) {
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setAutoReverse(true);
+
+        timeline.getKeyFrames().addAll(
+                new KeyFrame(Duration.ZERO, new KeyValue(target, startValue)),
+                new KeyFrame(new Duration(durationMs), new KeyValue(target, endValue))
+        );
+        return timeline;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("/fxml/PFDScreen.fxml"));
@@ -76,48 +87,10 @@ public class MainApp extends Application
         AttitudeIndicatorInstrument ai = new AttitudeIndicatorInstrument();
         AltitudeTape alt = new AltitudeTape(60, 250);
 
-        Timeline timeline = new Timeline();
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.setAutoReverse(true);
-
-        timeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, new KeyValue(st.airSpeedProperty(), 0)),
-                new KeyFrame(new Duration(13000), new KeyValue(st.airSpeedProperty(), 120))
-        );
-
-        Timeline bankTimeline = new Timeline();
-        bankTimeline.setCycleCount(Timeline.INDEFINITE);
-        bankTimeline.setAutoReverse(true);
-
-        bankTimeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, new KeyValue(ai.bankAngleProperty(), -60)),
-                new KeyFrame(new Duration(7500), new KeyValue(ai.bankAngleProperty(), 60))
-        );
-
-        Timeline pitchTimeline = new Timeline();
-        pitchTimeline.setCycleCount(Timeline.INDEFINITE);
-        pitchTimeline.setAutoReverse(true);
-
-        pitchTimeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, new KeyValue(ai.pitchAngleProperty(), -30)),
-                new KeyFrame(new Duration(4000), new KeyValue(ai.pitchAngleProperty(), 30))
-        );
-
-        Timeline altTimeline = new Timeline();
-        altTimeline.setCycleCount(Timeline.INDEFINITE);
-        altTimeline.setAutoReverse(true);
-
-        altTimeline.getKeyFrames().addAll(
-                new KeyFrame(Duration.ZERO, new KeyValue(alt.valueProperty(), -1200)),
-                new KeyFrame(new Duration(17000), new KeyValue(alt.valueProperty(), 1200))
-        );
-
-        Slider speedSlider = new Slider(0, 250, 0);
-        speedSlider.setOrientation(Orientation.VERTICAL);
-//        st.airSpeedProperty().bind(speedSlider.valueProperty());
-
-        //Parent root = new HBox(st, ai);
-//        StackPane root = new StackPane(ai, st);
+        Timeline iasTimeline = createTimeline(st.airSpeedProperty(), 13000, 0, 120);
+        Timeline bankTimeline = createTimeline(ai.bankAngleProperty(), 7500, -60, 60);
+        Timeline pitchTimeline = createTimeline(ai.pitchAngleProperty(), 4000, -30, 30);
+        Timeline altTimeline = createTimeline(alt.valueProperty(), 23000, -1200, 1200);
         AnchorPane root = new AnchorPane(ai, alt, st);
 
         st.setLayoutX(160);
@@ -128,12 +101,7 @@ public class MainApp extends Application
         alt.setLayoutY(75);
         alt.setOpacity(.85);
 
-        //root.setStyle("-fx-background-color: chocolate");
         Scene scene = new Scene(root);
-//        stage.setMaxHeight(480);
-//        stage.setMaxWidth(800);
-//        scene.setFill(Color.CHOCOLATE);
-        //scene.getStylesheets().add("/styles/pfdscreen.css");
 
         if (fgfsConn != null) {
             final FGFSIntegrator fgfsInt = new FGFSIntegrator();
@@ -160,12 +128,12 @@ public class MainApp extends Application
             telemetryUpdateService.start();
         }
 
-        stage.setTitle("xEFIS");
+        stage.setTitle("DEFIS");
         stage.setScene(scene);
         stage.show();
 
         bankTimeline.play();
-        timeline.play();
+        iasTimeline.play();
         pitchTimeline.play();
         altTimeline.play();
     }

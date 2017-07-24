@@ -19,7 +19,7 @@ import static org.defis.efis.gauges.DisplayOrientation.LEFT;
 
 /**
  * TODO: Think about the different types of altitude to show (pressure, density, true, absolute) TODO: Should this
- * include the Altimeter setting display (Kolsman window?)
+ * include the Altimeter setting display (Kollsman window?)
  *
  * @author Matthew Tyler
  */
@@ -27,8 +27,8 @@ public class AltitudeTape extends AbstractTapeGauge
 {
 
     public AltitudeTape(double width, double height) {
-        super(width, height, LEFT, 100, 20, 500);
-        setIndicatorLabelFormat("%0,3.0f");
+        super(width, height, LEFT, 100, 20, 500, 20);
+        setIndicatorLabelFormat("%03.0f");
         setNegativeDrawn(true);
         update();
     }
