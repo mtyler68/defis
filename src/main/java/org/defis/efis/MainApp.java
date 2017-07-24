@@ -27,6 +27,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.defis.efis.gauges.AltitudeTape;
+import org.defis.efis.gauges.HeadingIndicatorGauge;
 import org.flightgear.fgfsclient.FGFSConnection;
 
 import static javafx.application.Application.launch;
@@ -86,6 +87,7 @@ public class MainApp extends Application
         SpeedTapeInstrument st = new SpeedTapeInstrument();
         AttitudeIndicatorInstrument ai = new AttitudeIndicatorInstrument();
         AltitudeTape alt = new AltitudeTape(60, 250);
+        HeadingIndicatorGauge hi = new HeadingIndicatorGauge(150, 150);
 
         Timeline iasTimeline = createTimeline(st.airSpeedProperty(), 13000, 0, 120);
         Timeline bankTimeline = createTimeline(ai.bankAngleProperty(), 7500, -60, 60);

@@ -345,4 +345,8 @@ public abstract class AbstractTapeGauge extends Parent
         public double valueX;
     }
 
+    protected void drawRollingValues(TextAlignment alignment, VPos baseline) {
+
+    }
+
 }
