@@ -23,6 +23,8 @@ import javafx.beans.value.WritableValue;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -30,6 +32,8 @@ import org.defis.efis.gauges.AltitudeTape;
 import org.defis.efis.gauges.HeadingIndicatorGauge;
 import org.flightgear.fgfsclient.FGFSConnection;
 
+import static javafx.application.Application.launch;
+import static javafx.util.Duration.millis;
 import static javafx.application.Application.launch;
 import static javafx.util.Duration.millis;
 
@@ -87,13 +91,18 @@ public class MainApp extends Application
         SpeedTapeInstrument st = new SpeedTapeInstrument();
         AttitudeIndicatorInstrument ai = new AttitudeIndicatorInstrument();
         AltitudeTape alt = new AltitudeTape(60, 250);
-        HeadingIndicatorGauge hi = new HeadingIndicatorGauge(150, 150);
+        HeadingIndicatorGauge hi = new HeadingIndicatorGauge(200, 200);
+
+        Slider slider = new Slider(0, 360, 45);
+        Label sliderLabel = new Label();
 
         Timeline iasTimeline = createTimeline(st.airSpeedProperty(), 13000, 0, 120);
         Timeline bankTimeline = createTimeline(ai.bankAngleProperty(), 7500, -60, 60);
         Timeline pitchTimeline = createTimeline(ai.pitchAngleProperty(), 4000, -30, 30);
-        Timeline altTimeline = createTimeline(alt.valueProperty(), 23000, -1200, 1200);
-        AnchorPane root = new AnchorPane(ai, alt, st);
+        Timeline altTimeline = createTimeline(alt.valueProperty(), 23000, -200, 2200);
+        Timeline hiTimeline = createTimeline(hi.headingProperty(), 9300, 0, 360);
+
+        AnchorPane root = new AnchorPane(ai, alt, hi, slider, sliderLabel, st);
 
         st.setLayoutX(160);
         st.setLayoutY(75);
@@ -102,6 +111,18 @@ public class MainApp extends Application
         alt.setLayoutX(580);
         alt.setLayoutY(75);
         alt.setOpacity(.85);
+
+        hi.setLayoutX(300);
+        hi.setLayoutY(260);
+        hi.setOpacity(.85);
+        hi.headingProperty().set(45);
+
+        slider.setLayoutX(10);
+        slider.setLayoutY(10);
+        sliderLabel.setLayoutX(10);
+        sliderLabel.setLayoutY(25);
+//        hi.headingProperty().bind(slider.valueProperty());
+//        sliderLabel.textProperty().bind(slider.valueProperty().asString("%3.0f"));
 
         Scene scene = new Scene(root);
 
@@ -138,6 +159,7 @@ public class MainApp extends Application
         iasTimeline.play();
         pitchTimeline.play();
         altTimeline.play();
+        hiTimeline.play();
     }
 
     /**
